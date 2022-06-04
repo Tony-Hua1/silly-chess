@@ -7,6 +7,7 @@
 #include "chess_pieces.h"
 #include "chess_board.h"
 #include "chess_player.h"
+#include "unit_test_chess.h"
 
 using namespace std;
 
