@@ -145,6 +145,25 @@ void Pawn::get_moves(const Board& board, Cell from, vector<Move>& moves) const {
   }
 }
 
+void CheckerPiece::get_moves(const Board& board, Cell from, vector<Move>& moves) const {
+  Cell to;
+
+  to = Cell(from.x - 1, from.y + y_move_steps);
+  if (board.contains(to) && board[to] == EMPTY_SPACE) {
+    moves.emplace_back(from, to);
+  }
+  if (board.contains(to) && is_opposite_team(board[to])) {
+    moves.emplace_back(from, to);
+  }
+
+  to = Cell(from.x + 1, from.y + y_move_steps);
+  if (board.contains(to) && board[to] == EMPTY_SPACE) {
+    moves.emplace_back(from, to);
+  }
+  if (board.contains(to) && is_opposite_team(board[to])) {
+    moves.emplace_back(from, to);
+  }
+}
 
 const EmptySpace EMPTY_SPACE;
 const King WHITE_KING(U'♔', WHITE);
@@ -159,6 +178,8 @@ const Rook WHITE_ROOK(U'♖', WHITE);
 const Rook BLACK_ROOK(U'♜', BLACK);
 const Pawn WHITE_PAWN(U'♙', WHITE, 1);
 const Pawn BLACK_PAWN(U'♟', BLACK, -1);
+const CheckerPiece WHITE_CHECKER_PIECE(U'⛀', WHITE, 1);
+const CheckerPiece BLACK_CHECKER_PIECE(U'⛂', BLACK, -1);
 const map<UTF8CodePoint, const ChessPiece*> ALL_CHESS_PIECES = {
   {EMPTY_SPACE.utf8_codepoint, &EMPTY_SPACE},
   {WHITE_KING.utf8_codepoint, &WHITE_KING},
@@ -173,4 +194,6 @@ const map<UTF8CodePoint, const ChessPiece*> ALL_CHESS_PIECES = {
   {BLACK_ROOK.utf8_codepoint, &BLACK_ROOK},
   {WHITE_PAWN.utf8_codepoint, &WHITE_PAWN},
   {BLACK_PAWN.utf8_codepoint, &BLACK_PAWN},
+  {WHITE_CHECKER_PIECE.utf8_codepoint, &WHITE_CHECKER_PIECE},
+  {BLACK_CHECKER_PIECE.utf8_codepoint, &BLACK_CHECKER_PIECE},
 };
