@@ -3,6 +3,8 @@
 #include <sstream>
 #include <stdexcept>
 #include <vector>
+#include <algorithm>
+#include <iterator>
 
 #include "utf8_codepoint.h"
 #include "chess_pieces.h"
@@ -15,6 +17,9 @@ using std::ostream;
 using std::out_of_range;
 using std::stringstream;
 using std::vector;
+using std::string;
+using std::runtime_error;
+using std::cout;
 
 
 const char* team_name(Team team) {
@@ -183,4 +188,44 @@ ostream& operator<<(ostream& os, const Board& board) {
   }
   os << "   abcdefgh\n";
   return os;
+}
+
+istream& operator>>(istream& is, Board& board) {
+  string line;
+  int num_of_lines = 0;
+  while (getline(is, line)) {
+    ++num_of_lines;
+  }
+  const int MAX_ROWS = num_of_lines - 2;
+
+  is.clear();
+  is.seekg(0);
+
+  getline(is, line);
+  int num_of_cols = 0;
+  for (int i = 0; i < line.length(); ++i) {
+    if (!isspace(line[i])) {
+      ++num_of_cols;
+    }
+  }
+  const int MAX_COLUMNS = num_of_cols;
+
+  char c;
+  for (int row = 0; row < MAX_ROWS; ++row) {
+    for (int i = 0; i < 3; ++i) { // skip first three chars
+      is.get(c);
+    }
+
+    UTF8CodePoint chess_piece;
+    for (int col = 0; col < MAX_COLUMNS; ++col) {
+      is >> chess_piece;
+      board.board[MAX_COLUMNS - row - 1][col] = ALL_CHESS_PIECES.at(chess_piece);
+    }
+
+    for (int i = 0; i < 3; ++i) { // skip last three chars
+      is.get(c);
+    }
+  }
+
+  return is;
 }
