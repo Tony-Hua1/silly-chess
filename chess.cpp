@@ -3,6 +3,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include <fstream>
 
 #include "chess_pieces.h"
 #include "chess_board.h"
@@ -48,8 +49,16 @@ Team play_one_chess_game(Player& white_player, Player& black_player, ostream& os
 }
 
 int main(int argc, const char *argv[]) {
-  HumanPlayer white_player(WHITE);
-  CheckMateCapturePlayer black_player(BLACK);
-  play_one_chess_game(white_player, black_player, cout);
+  // HumanPlayer white_player(WHITE);
+  // CheckMateCapturePlayer black_player(BLACK);
+  // play_one_chess_game(white_player, black_player, cout);
+
+  ifstream input("./input.txt");
+
+  Board board;
+  input >> board;
+  cout << board << endl;
+
+
   return 0;
 }
