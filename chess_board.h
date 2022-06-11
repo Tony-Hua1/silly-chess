@@ -49,7 +49,9 @@ ostream& operator<<(ostream& os, const Move& move);
 istream& operator>>(istream& is, Move& move);
 
 class Board {
-  const ChessPiece* board[8][8];
+  // const ChessPiece* board[8][8];
+
+  vector<vector<ChessPiece*>> v;
   Team current_teams_turn;
 
 public:
